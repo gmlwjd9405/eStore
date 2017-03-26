@@ -16,10 +16,10 @@
   <title>My eStore</title>
 
   <!-- Bootstrap core CSS -->
-  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <link href="<c:url value="/resources/css/bootstrap.min.css"/>" rel="stylesheet">
 
   <!-- Custom styles for this template -->
-  <link href="css/carousel.css" rel="stylesheet">
+  <link href="<c:url value="/resources/css/carousel.css"/>" rel="stylesheet">
 </head>
 <!-- NAVBAR
 ================================================== -->
@@ -158,7 +158,7 @@
   ================================================== -->
   <!-- Placed at the end of the document so the pages load faster -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
+  <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 
 </body>
 </html>
