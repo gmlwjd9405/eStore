@@ -1,4 +1,4 @@
-package kr.ac.hansung.cse;
+package kr.ac.hansung.cse.controller;
 
 import java.util.Locale;
 
