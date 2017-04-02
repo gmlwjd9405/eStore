@@ -23,7 +23,7 @@ public class ProductDao {
 		this.jdbcTemplateObject = new JdbcTemplate(dataSource);
 	}
 
-	//DB에서 모든 record를 조회해서 결과를 List의 형태로 넘겨받는다.
+	// DB에서 모든 record를 조회해서 결과를 List의 형태로 넘겨받는다.
 	public List<Product> getProducts() {
 		String sqlStatement = "select * from product";
 
@@ -41,7 +41,7 @@ public class ProductDao {
 				product.setManufacturer(rs.getString("manufacturer"));
 				product.setUnitInStock(rs.getInt("unitInStock"));
 				product.setDescription(rs.getString("description"));
-				//product.setImageFilename(rs.getString("imageFilename"));
+				// product.setImageFilename(rs.getString("imageFilename"));
 
 				return product;
 			}
@@ -49,30 +49,32 @@ public class ProductDao {
 		});
 	}
 
-	//product의 필드값을 하나씩 가져와서 DB에 저장해준다.
+	// product의 필드값을 하나씩 가져와서 DB에 저장해준다.
 	public boolean addProduct(Product product) {
-		//id는 auto_increment이므로 자동으로 DB에 저장된다.
+		// id는 auto_increment이므로 자동으로 DB에 저장된다.
 		String name = product.getName();
-		
+
 		String category = product.getCategory();
 		int price = product.getPrice();
 		String manufacturer = product.getManufacturer();
 		int unitInStock = product.getUnitInStock();
 		String description = product.getDescription();
-		
+
 		System.out.println("productDao : " + product);
 		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description) values (?,?,?,?,?,?)";
 
 		return (jdbcTemplateObject.update(sqlStatement,
-				new Object[] { name, category, price, manufacturer, unitInStock, description}) == 1);
+				new Object[] { name, category, price, manufacturer, unitInStock, description }) == 1);
 	}
 
+	// id에 해당하는 product를 DB에서 제거한다.
 	public boolean deleteProduct(int id) {
 		String sqlStatement = "delete from product where id=?";
 
 		return (jdbcTemplateObject.update(sqlStatement, new Object[] { id }) == 1);
 	}
 
+	// id에 해당하는 product를 DB에서 조회한다.
 	public Product getProductById(int id) {
 		String sqlStatement = "select * from product where id=?";
 
@@ -90,14 +92,14 @@ public class ProductDao {
 				product.setManufacturer(rs.getString("manufacturer"));
 				product.setUnitInStock(rs.getInt("unitInStock"));
 				product.setDescription(rs.getString("description"));
-				product.setImageFilename(rs.getString("imageFilename"));
+				// product.setImageFilename(rs.getString("imageFilename"));
 
 				return product;
 			}
-
 		});
 	}
 
+	// product를 선택하여 수정한 내용을 DB에 반영한다.
 	public boolean editProduct(Product product) {
 		int id = product.getId();
 		String name = product.getName();
@@ -106,11 +108,11 @@ public class ProductDao {
 		String manufacturer = product.getManufacturer();
 		int unitInStock = product.getUnitInStock();
 		String description = product.getDescription();
-		String imageFilename = product.getImageFilename();
+		//String imageFilename = product.getImageFilename();
 
-		String sqlStatement = "update product set name=?, category=?, price=?, manufacturer=?, unitInStock=?, description=?, imageFilename=? where id=?";
-		return (jdbcTemplateObject.update(sqlStatement,
-				new Object[] { name, category, price, manufacturer, unitInStock, description, imageFilename, id}) == 1);
+		String sqlStatement = "update product set name=?, category=?, price=?, manufacturer=?, unitInStock=?, description=? where id=?";
+		return (jdbcTemplateObject.update(sqlStatement, new Object[] { name, category, price, manufacturer, unitInStock,
+				description, id }) == 1);
 	}
 
 }

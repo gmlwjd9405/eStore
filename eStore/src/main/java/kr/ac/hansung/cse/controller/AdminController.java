@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -57,7 +58,7 @@ public class AdminController {
 	// 실제 사용자가 form에 입력한 data를 DB에 저장한다.
 	@RequestMapping(value = "/productInventory/addProduct", method = RequestMethod.POST)
 	public String addProductPost(Product product) {
-		//성공하면 return true
+		// 성공하면 return true
 		if (!productService.addProduct(product)) {
 			System.out.println("Adding product cannot be done");
 		}
@@ -65,71 +66,36 @@ public class AdminController {
 		return "redirect:/admin/productInventory";
 	}
 
-	// @RequestMapping("/productInventory/deleteProduct/{id}")
-	// public String deleteProduct(@PathVariable int id, HttpServletRequest request) {
-	//
-	// Product product = productService.getProductById(id);
-	//
-	// String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-	// Path path = Paths.get(rootDirectory + "\\resources\\images\\" + product.getImageFilename());
-	//
-	// if(Files.exists(path)) {
-	// try {
-	// Files.delete(path);
-	// }
-	// catch (IOException e) {
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	//
-	// if(! productService.deleteProductById(id)) {
-	// System.out.println("Deleting product cannot be done");
-	// }
-	//
-	// return "redirect:/admin/productInventory";
-	// }
-	//
-	// @RequestMapping("/productInventory/editProduct/{id}")
-	// public String editProduct(@PathVariable int id, Model model) {
-	// Product product = productService.getProductById(id);
-	//
-	// model.addAttribute("product", product);
-	//
-	// return "editProduct";
-	// }
-	//
-	// @RequestMapping(value="/productInventory/editProduct", method=RequestMethod.POST)
-	// public String editProductPost(@Valid Product product, BindingResult result, HttpServletRequest request) {
-	//
-	// if(result.hasErrors()) {
-	// System.out.println("===From data has some errors===");
-	// List<ObjectError> errors = result.getAllErrors();
-	// for(ObjectError error:errors) {
-	// System.out.println(error.getDefaultMessage());
-	// }
-	// return "editProduct";
-	// }
-	//
-	// MultipartFile productImage = product.getProductImage();
-	// String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-	// Path savePath = Paths.get(rootDirectory + "\\resources\\images\\" + productImage.getOriginalFilename());
-	// if(productImage != null && !productImage.isEmpty()) {
-	// try {
-	// productImage.transferTo(new File(savePath.toString()));
-	// }
-	// catch(Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// product.setImageFilename(productImage.getOriginalFilename());
-	//
-	// if(! productService.editProduct(product)) {
-	// System.out.println("Editing product cannot be done");
-	// }
-	//
-	// return "redirect:/admin/productInventory";
-	// }
+	// 관리자가 product를 삭제하면 DB에 반영한다.
+	@RequestMapping("/productInventory/deleteProduct/{id}")
+	public String deleteProduct(@PathVariable int id) {
+		// 성공하면 return true
+		if (!productService.deleteProductById(id)) {
+			System.out.println("Deleting product cannot be done");
+		}
+
+		return "redirect:/admin/productInventory";
+	}
+
+	// product를 선택하여 내용을 수정할 수 있도록 한다.
+	@RequestMapping("/productInventory/editProduct/{id}")
+	public String editProduct(@PathVariable int id, Model model) {
+		Product product = productService.getProductById(id);
+
+		model.addAttribute("product", product);
+
+		return "editProduct";
+	}
+
+	// product를 선택하여 수정한 내용을 DB에 반영한다.
+	@RequestMapping(value = "/productInventory/editProduct", method = RequestMethod.POST)
+	public String editProductPost(Product product) {
+
+		// 성공하면 return true
+		if (!productService.editProduct(product)) {
+			System.out.println("Editing product cannot be done");
+		}
+		return "redirect:/admin/productInventory";
+	}
 
 }

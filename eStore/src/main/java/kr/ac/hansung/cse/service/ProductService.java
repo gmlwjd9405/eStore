@@ -10,10 +10,10 @@ import kr.ac.hansung.cse.model.Product;
 
 @Service
 public class ProductService {
-	
+
 	@Autowired
 	private ProductDao productDao;
-	
+
 	public List<Product> getProducts() {
 		return productDao.getProducts();
 	}

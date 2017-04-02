@@ -15,6 +15,7 @@
 					<th>Manufacturer</th>
 					<th>UnitInStock</th>
 					<th>Description</th>
+					<th> </th>
 				</tr>
 			</thead>
 			<tbody>
@@ -26,6 +27,13 @@
 						<td>${product.manufacturer}</td>
 						<td>${product.unitInStock}</td>
 						<td>${product.description}</td>
+						<td>
+							<a href="<spring:url value="/admin/productInventory/deleteProduct/${product.id}"/>"> <span class="glyphicon glyphicon-remove"></span>
+							</a>
+							<a href="<spring:url value="/admin/productInventory/editProduct/${product.id}"/>"> <span class="glyphicon glyphicon-pencil"></span>
+							</a> 
+							
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
