@@ -28,7 +28,7 @@
 				<sf:radiobutton path="category" id="category" value="신발" />
 				신발
 			</div>
-			
+
 			<div class="form-group">
 				<label for="description">Description</label>
 				<sf:textarea path="description" id="description"
@@ -59,7 +59,7 @@
 			<input type="submit" value="submit" class="btn btn-default">
 			<a href="<c:url value="/admin/productInventory" />"
 				class="btn btn-default">Cancel</a>
-				
+
 		</sf:form>
 		<br>
 	</div>

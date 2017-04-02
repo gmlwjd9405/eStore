@@ -2,8 +2,7 @@ package kr.ac.hansung.cse.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-//import javax.validation.Valid;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -57,7 +56,19 @@ public class AdminController {
 
 	// 실제 사용자가 form에 입력한 data를 DB에 저장한다.
 	@RequestMapping(value = "/productInventory/addProduct", method = RequestMethod.POST)
-	public String addProductPost(Product product) {
+	public String addProductPost(@Valid Product product, BindingResult result) {
+		// 검증에 대한 error체크
+		if (result.hasErrors()) {
+			System.out.println("===From data has some errors===");
+			// 검증결과를 List형태로 받아온다.
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors) {
+				// 현재는 console창에만 출력하도록
+				System.out.println(error.getDefaultMessage());
+			}
+			return "addProduct";
+		}
+
 		// 성공하면 return true
 		if (!productService.addProduct(product)) {
 			System.out.println("Adding product cannot be done");
@@ -89,7 +100,18 @@ public class AdminController {
 
 	// product를 선택하여 수정한 내용을 DB에 반영한다.
 	@RequestMapping(value = "/productInventory/editProduct", method = RequestMethod.POST)
-	public String editProductPost(Product product) {
+	public String editProductPost(@Valid Product product, BindingResult result) {
+		// 검증에 대한 error체크
+		if (result.hasErrors()) {
+			System.out.println("===From data has some errors===");
+			// 검증결과를 List형태로 받아온다.
+			List<ObjectError> errors = result.getAllErrors();
+			for (ObjectError error : errors) {
+				// 현재는 console창에만 출력하도록
+				System.out.println(error.getDefaultMessage());
+			}
+			return "editProduct";
+		}
 
 		// 성공하면 return true
 		if (!productService.editProduct(product)) {
