@@ -54,8 +54,6 @@ public class ProductDao {
 		//id는 auto_increment이므로 자동으로 DB에 저장된다.
 		String name = product.getName();
 		
-		System.out.println("name?????:" + name);
-		
 		String category = product.getCategory();
 		int price = product.getPrice();
 		String manufacturer = product.getManufacturer();
@@ -63,9 +61,8 @@ public class ProductDao {
 		String description = product.getDescription();
 		
 		System.out.println("productDao : " + product);
-		System.out.println("11111111111111");
 		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description) values (?,?,?,?,?,?)";
-		System.out.println("22222222222222");
+
 		return (jdbcTemplateObject.update(sqlStatement,
 				new Object[] { name, category, price, manufacturer, unitInStock, description}) == 1);
 	}

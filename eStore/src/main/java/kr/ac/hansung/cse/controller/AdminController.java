@@ -50,8 +50,6 @@ public class AdminController {
 		product.setName("노트북");
 		product.setCategory("컴퓨터");
 		model.addAttribute("product", product);
-		
-		System.out.println("Controller addProduct: " + product.getName());
 
 		return "addProduct";
 	}
@@ -63,8 +61,6 @@ public class AdminController {
 		if (!productService.addProduct(product)) {
 			System.out.println("Adding product cannot be done");
 		}
-		
-		System.out.println("Controller addProductPost: " + product.getName());
 
 		return "redirect:/admin/productInventory";
 	}
