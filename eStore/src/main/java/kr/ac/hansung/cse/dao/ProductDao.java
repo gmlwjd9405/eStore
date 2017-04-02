@@ -49,20 +49,25 @@ public class ProductDao {
 		});
 	}
 
+	//product의 필드값을 하나씩 가져와서 DB에 저장해준다.
 	public boolean addProduct(Product product) {
+		//id는 auto_increment이므로 자동으로 DB에 저장된다.
 		String name = product.getName();
+		
+		System.out.println("name?????:" + name);
+		
 		String category = product.getCategory();
 		int price = product.getPrice();
 		String manufacturer = product.getManufacturer();
 		int unitInStock = product.getUnitInStock();
 		String description = product.getDescription();
-		String imageFilename = product.getImageFilename();
 		
 		System.out.println("productDao : " + product);
-
-		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description, imageFilename) values (?,?,?,?,?,?,?)";
+		System.out.println("11111111111111");
+		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description) values (?,?,?,?,?,?)";
+		System.out.println("22222222222222");
 		return (jdbcTemplateObject.update(sqlStatement,
-				new Object[] { name, category, price, manufacturer, unitInStock, description, imageFilename }) == 1);
+				new Object[] { name, category, price, manufacturer, unitInStock, description}) == 1);
 	}
 
 	public boolean deleteProduct(int id) {

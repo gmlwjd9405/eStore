@@ -10,8 +10,8 @@
 		<p class="lead">Fill the below information to add a product:</p>
 
 		<sf:form
-			action="${pageContext.request.contextPath}/admin/productInventory/addProduct?${_csrf.parameterName}=${_csrf.token}"
-			method="post" modelAttribute="product" enctype="multipart/form-data">
+			action="${pageContext.request.contextPath}/admin/productInventory/addProduct"
+			method="post" modelAttribute="product">
 
 			<div class="form-group">
 				<label for="name">Name</label>

@@ -1,10 +1,5 @@
 package kr.ac.hansung.cse.controller;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,10 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.hansung.cse.model.Product;
 import kr.ac.hansung.cse.service.ProductService;
@@ -57,51 +50,25 @@ public class AdminController {
 		product.setName("노트북");
 		product.setCategory("컴퓨터");
 		model.addAttribute("product", product);
+		
+		System.out.println("Controller addProduct: " + product.getName());
 
 		return "addProduct";
 	}
 
-	//
-	// @RequestMapping(value="/productInventory/addProduct", method=RequestMethod.POST)
-	// public String addProductPost(@Valid Product product, BindingResult result, HttpServletRequest request) {
-	// if(result.hasErrors()) {
-	// System.out.println("===From data has some errors===");
-	// List<ObjectError> errors = result.getAllErrors();
-	// for(ObjectError error:errors) {
-	// System.out.println(error.getDefaultMessage());
-	// }
-	// return "addProduct";
-	// }
-	//
-	// MultipartFile productImage = product.getProductImage();
-	// String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-	// Path savePath = Paths.get(rootDirectory + "\\resources\\images\\" + productImage.getOriginalFilename());
-	// if(productImage != null && !productImage.isEmpty()) {
-	// try {
-	// productImage.transferTo(new File(savePath.toString()));
-	// }
-	// catch(Exception e) {
-	// e.printStackTrace();
-	// }
-	// }
-	//
-	// product.setImageFilename(productImage.getOriginalFilename());
-	//
-	//// if(productImage.isEmpty() == false) {
-	//// System.out.println("------ file start ------");
-	//// System.out.println("name: " + productImage.getName());
-	//// System.out.println("filename: " + productImage.getOriginalFilename());
-	//// System.out.println("filrsize: " + productImage.getSize());
-	//// System.out.println("------ file start ------");
-	//// }
-	////
-	// if( !productService.addProduct(product)) {
-	// System.out.println("Adding product cannot be done");
-	// }
-	//
-	// return "redirect:/admin/productInventory";
-	// }
-	//
+	// 실제 사용자가 form에 입력한 data를 DB에 저장한다.
+	@RequestMapping(value = "/productInventory/addProduct", method = RequestMethod.POST)
+	public String addProductPost(Product product) {
+		//성공하면 return true
+		if (!productService.addProduct(product)) {
+			System.out.println("Adding product cannot be done");
+		}
+		
+		System.out.println("Controller addProductPost: " + product.getName());
+
+		return "redirect:/admin/productInventory";
+	}
+
 	// @RequestMapping("/productInventory/deleteProduct/{id}")
 	// public String deleteProduct(@PathVariable int id, HttpServletRequest request) {
 	//
