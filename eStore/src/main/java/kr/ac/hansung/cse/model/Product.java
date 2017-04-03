@@ -1,7 +1,9 @@
 package kr.ac.hansung.cse.model;
 
 import javax.validation.constraints.Min;
+
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,7 +31,7 @@ public class Product {
 
 	private String description;
 
-	// private MultipartFile productImage;
-	//
-	// private String imageFilename;
+	private MultipartFile productImage;
+
+	private String imageFilename;
 }
