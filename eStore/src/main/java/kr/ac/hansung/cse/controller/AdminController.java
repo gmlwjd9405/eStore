@@ -1,7 +1,11 @@
 package kr.ac.hansung.cse.controller;
 
+import java.io.File;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +16,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.multipart.MultipartFile;
 
 import kr.ac.hansung.cse.model.Product;
 import kr.ac.hansung.cse.service.ProductService;
@@ -56,8 +61,8 @@ public class AdminController {
 
 	// 실제 사용자가 form에 입력한 data를 DB에 저장한다.
 	@RequestMapping(value = "/productInventory/addProduct", method = RequestMethod.POST)
-	public String addProductPost(@Valid Product product, BindingResult result) {
-		// 검증에 대한 error체크
+	public String addProductPost(@Valid Product product, BindingResult result, HttpServletRequest request) {
+		/* 검증에 대한 error 체크 */
 		if (result.hasErrors()) {
 			System.out.println("===From data has some errors===");
 			// 검증결과를 List형태로 받아온다.
@@ -69,7 +74,32 @@ public class AdminController {
 			return "addProduct";
 		}
 
-		// 성공하면 return true
+		/* 넘어온 이미지를 실제 /resources/images에 저장한다. */
+		MultipartFile productImage = product.getProductImage();
+		// root directory를 동적으로 얻어온다.
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		// 파일을 저장할 위치
+		Path savePath = Paths.get(rootDirectory + "\\resources\\images\\" + productImage.getOriginalFilename());
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
+				productImage.transferTo(new File(savePath.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		//파일 이름을 지정
+		product.setImageFilename(productImage.getOriginalFilename());
+
+		// /* 어떤 data binding에 의해 가져온 imageFile에 어떤 정보가 있는지 test */
+		// if (productImage.isEmpty() == false) {
+		// System.out.println("------ file start ------");
+		// System.out.println("name: " + productImage.getName());
+		// System.out.println("filename: " + productImage.getOriginalFilename());
+		// System.out.println("filesize: " + productImage.getSize());
+		// System.out.println("------ file start ------");
+		// }
+
+		/* 성공하면 return true */
 		if (!productService.addProduct(product)) {
 			System.out.println("Adding product cannot be done");
 		}
@@ -101,7 +131,7 @@ public class AdminController {
 	// product를 선택하여 수정한 내용을 DB에 반영한다.
 	@RequestMapping(value = "/productInventory/editProduct", method = RequestMethod.POST)
 	public String editProductPost(@Valid Product product, BindingResult result) {
-		// 검증에 대한 error체크
+		/* 검증에 대한 error체크 */
 		if (result.hasErrors()) {
 			System.out.println("===From data has some errors===");
 			// 검증결과를 List형태로 받아온다.
@@ -113,7 +143,20 @@ public class AdminController {
 			return "editProduct";
 		}
 
-		// 성공하면 return true
+		/*  */
+		// MultipartFile productImage = product.getProductImage();
+		// String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		// Path savePath = Paths.get(rootDirectory + "\\resources\\images\\" + productImage.getOriginalFilename());
+		// if (productImage != null && !productImage.isEmpty()) {
+		// try {
+		// productImage.transferTo(new File(savePath.toString()));
+		// } catch (Exception e) {
+		// e.printStackTrace();
+		// }
+		// }
+		// product.setImageFilename(productImage.getOriginalFilename());
+
+		/* 성공하면 return true */
 		if (!productService.editProduct(product)) {
 			System.out.println("Editing product cannot be done");
 		}

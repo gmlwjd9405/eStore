@@ -53,18 +53,18 @@ public class ProductDao {
 	public boolean addProduct(Product product) {
 		// id는 auto_increment이므로 자동으로 DB에 저장된다.
 		String name = product.getName();
-
 		String category = product.getCategory();
 		int price = product.getPrice();
 		String manufacturer = product.getManufacturer();
 		int unitInStock = product.getUnitInStock();
 		String description = product.getDescription();
+		String imageFilename = product.getImageFilename();
 
 		System.out.println("productDao : " + product);
-		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description) values (?,?,?,?,?,?)";
 
+		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description, imageFilename) values (?,?,?,?,?,?,?)";
 		return (jdbcTemplateObject.update(sqlStatement,
-				new Object[] { name, category, price, manufacturer, unitInStock, description }) == 1);
+				new Object[] { name, category, price, manufacturer, unitInStock, description, imageFilename }) == 1);
 	}
 
 	// id에 해당하는 product를 DB에서 제거한다.
@@ -108,11 +108,11 @@ public class ProductDao {
 		String manufacturer = product.getManufacturer();
 		int unitInStock = product.getUnitInStock();
 		String description = product.getDescription();
-		//String imageFilename = product.getImageFilename();
+		// String imageFilename = product.getImageFilename();
 
 		String sqlStatement = "update product set name=?, category=?, price=?, manufacturer=?, unitInStock=?, description=? where id=?";
-		return (jdbcTemplateObject.update(sqlStatement, new Object[] { name, category, price, manufacturer, unitInStock,
-				description, id }) == 1);
+		return (jdbcTemplateObject.update(sqlStatement,
+				new Object[] { name, category, price, manufacturer, unitInStock, description, id }) == 1);
 	}
 
 }
