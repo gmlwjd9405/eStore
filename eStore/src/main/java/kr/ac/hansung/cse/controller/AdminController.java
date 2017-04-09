@@ -1,6 +1,8 @@
 package kr.ac.hansung.cse.controller;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.List;
@@ -87,7 +89,7 @@ public class AdminController {
 				e.printStackTrace();
 			}
 		}
-		//파일 이름을 지정
+		// 파일 이름을 지정
 		product.setImageFilename(productImage.getOriginalFilename());
 
 		// /* 어떤 data binding에 의해 가져온 imageFile에 어떤 정보가 있는지 test */
@@ -109,7 +111,23 @@ public class AdminController {
 
 	// 관리자가 product를 삭제하면 DB에 반영한다.
 	@RequestMapping("/productInventory/deleteProduct/{id}")
-	public String deleteProduct(@PathVariable int id) {
+	public String deleteProduct(@PathVariable int id, HttpServletRequest request) {
+		/* id에 해당하는 product를 DB에서 가져온 후 resources에 있는 image와 DB에서 product에 대한 것을 삭제한다. */
+		Product product = productService.getProductById(id);
+
+		// root directory를 동적으로 얻어온다.
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		// 파일을 저장할 위치
+		Path path = Paths.get(rootDirectory + "\\resources\\images\\" + product.getImageFilename());
+
+		if (Files.exists(path)) {
+			try {
+				Files.delete(path);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
 		// 성공하면 return true
 		if (!productService.deleteProductById(id)) {
 			System.out.println("Deleting product cannot be done");
@@ -130,7 +148,7 @@ public class AdminController {
 
 	// product를 선택하여 수정한 내용을 DB에 반영한다.
 	@RequestMapping(value = "/productInventory/editProduct", method = RequestMethod.POST)
-	public String editProductPost(@Valid Product product, BindingResult result) {
+	public String editProductPost(@Valid Product product, BindingResult result, HttpServletRequest request) {
 		/* 검증에 대한 error체크 */
 		if (result.hasErrors()) {
 			System.out.println("===From data has some errors===");
@@ -143,18 +161,21 @@ public class AdminController {
 			return "editProduct";
 		}
 
-		/*  */
-		// MultipartFile productImage = product.getProductImage();
-		// String rootDirectory = request.getSession().getServletContext().getRealPath("/");
-		// Path savePath = Paths.get(rootDirectory + "\\resources\\images\\" + productImage.getOriginalFilename());
-		// if (productImage != null && !productImage.isEmpty()) {
-		// try {
-		// productImage.transferTo(new File(savePath.toString()));
-		// } catch (Exception e) {
-		// e.printStackTrace();
-		// }
-		// }
-		// product.setImageFilename(productImage.getOriginalFilename());
+		/* 넘어온 이미지를 실제 /resources/images에 저장한다. */
+		MultipartFile productImage = product.getProductImage();
+		// root directory를 동적으로 얻어온다.
+		String rootDirectory = request.getSession().getServletContext().getRealPath("/");
+		// 파일을 저장할 위치
+		Path savePath = Paths.get(rootDirectory + "\\resources\\images\\" + productImage.getOriginalFilename());
+		if (productImage != null && !productImage.isEmpty()) {
+			try {
+				productImage.transferTo(new File(savePath.toString()));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		// 파일 이름을 지정
+		product.setImageFilename(productImage.getOriginalFilename());
 
 		/* 성공하면 return true */
 		if (!productService.editProduct(product)) {

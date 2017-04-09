@@ -41,7 +41,7 @@ public class ProductDao {
 				product.setManufacturer(rs.getString("manufacturer"));
 				product.setUnitInStock(rs.getInt("unitInStock"));
 				product.setDescription(rs.getString("description"));
-				// product.setImageFilename(rs.getString("imageFilename"));
+				product.setImageFilename(rs.getString("imageFilename"));
 
 				return product;
 			}
@@ -60,7 +60,8 @@ public class ProductDao {
 		String description = product.getDescription();
 		String imageFilename = product.getImageFilename();
 
-		System.out.println("productDao : " + product);
+		//test
+		System.out.println("addProduct : " + product);
 
 		String sqlStatement = "insert into product (name, category, price, manufacturer, unitInStock, description, imageFilename) values (?,?,?,?,?,?,?)";
 		return (jdbcTemplateObject.update(sqlStatement,
@@ -92,7 +93,7 @@ public class ProductDao {
 				product.setManufacturer(rs.getString("manufacturer"));
 				product.setUnitInStock(rs.getInt("unitInStock"));
 				product.setDescription(rs.getString("description"));
-				// product.setImageFilename(rs.getString("imageFilename"));
+				product.setImageFilename(rs.getString("imageFilename"));
 
 				return product;
 			}
@@ -108,11 +109,11 @@ public class ProductDao {
 		String manufacturer = product.getManufacturer();
 		int unitInStock = product.getUnitInStock();
 		String description = product.getDescription();
-		// String imageFilename = product.getImageFilename();
+		String imageFilename = product.getImageFilename();
 
-		String sqlStatement = "update product set name=?, category=?, price=?, manufacturer=?, unitInStock=?, description=? where id=?";
-		return (jdbcTemplateObject.update(sqlStatement,
-				new Object[] { name, category, price, manufacturer, unitInStock, description, id }) == 1);
+		String sqlStatement = "update product set name=?, category=?, price=?, manufacturer=?, unitInStock=?, description=?, imageFilename=? where id=?";
+		return (jdbcTemplateObject.update(sqlStatement, new Object[] { name, category, price, manufacturer, unitInStock,
+				description, imageFilename, id }) == 1);
 	}
 
 }
