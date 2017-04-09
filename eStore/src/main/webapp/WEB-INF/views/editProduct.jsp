@@ -10,7 +10,7 @@
 		<p class="lead">Fill the below information to edit a product:</p>
 
 		<sf:form
-			action="${pageContext.request.contextPath}/admin/productInventory/editProduct"
+			action="${pageContext.request.contextPath}/admin/productInventory/editProduct?${_csrf.parameterName}=${_csrf.token}"
 			method="post" modelAttribute="product" enctype="multipart/form-data">
 
 			<sf:hidden path="id" />
