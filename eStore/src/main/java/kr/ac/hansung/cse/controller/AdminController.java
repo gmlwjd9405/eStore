@@ -101,10 +101,7 @@ public class AdminController {
 		// System.out.println("------ file start ------");
 		// }
 
-		/* 성공하면 return true */
-		if (!productService.addProduct(product)) {
-			System.out.println("Adding product cannot be done");
-		}
+		productService.addProduct(product);
 
 		return "redirect:/admin/productInventory";
 	}
@@ -128,10 +125,7 @@ public class AdminController {
 			}
 		}
 
-		// 성공하면 return true
-		if (!productService.deleteProductById(id)) {
-			System.out.println("Deleting product cannot be done");
-		}
+		productService.deleteProduct(product);
 
 		return "redirect:/admin/productInventory";
 	}
@@ -177,10 +171,8 @@ public class AdminController {
 		// 파일 이름을 지정
 		product.setImageFilename(productImage.getOriginalFilename());
 
-		/* 성공하면 return true */
-		if (!productService.editProduct(product)) {
-			System.out.println("Editing product cannot be done");
-		}
+		productService.editProduct(product);
+
 		return "redirect:/admin/productInventory";
 	}
 
