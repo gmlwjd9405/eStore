@@ -1,5 +1,12 @@
 package kr.ac.hansung.cse.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -12,7 +19,12 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Entity
+@Table(name="product")
 public class Product {
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="product_id")
 	private int id;
 
 	@NotEmpty(message = "The product name must not be null")
@@ -31,6 +43,7 @@ public class Product {
 
 	private String description;
 
+	@Transient
 	private MultipartFile productImage;
 
 	private String imageFilename;
