@@ -36,7 +36,7 @@ public class User {
 	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
 	private ShippingAddress shippingAddress; // 배송 주소
 
-	private boolean enable = false; // 가입자가 활성화 되어 있는지
+	private boolean enabled = false; // 가입자가 활성화 되어 있는지
 
 	private String authority; // 권한
 }
