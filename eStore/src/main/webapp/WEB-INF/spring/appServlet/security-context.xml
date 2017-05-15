@@ -14,6 +14,7 @@
 				data-source-ref="dataSource"
 				users-by-username-query="select username, password, enabled from users where username=?"
 				authorities-by-username-query="select username, authority from users where username=?" />
+			<security:password-encoder ref="passwordEncoder"></security:password-encoder>
 		</security:authentication-provider>
 	</security:authentication-manager>
 
@@ -22,4 +23,7 @@
 		<security:form-login login-page="/login" authentication-failure-url="/login?error" />
 	</security:http>
 
+	<bean id="passwordEncoder"
+		class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder">
+	</bean>
 </beans>

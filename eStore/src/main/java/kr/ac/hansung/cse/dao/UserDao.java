@@ -6,6 +6,7 @@ import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,10 +17,15 @@ import kr.ac.hansung.cse.model.User;
 public class UserDao {
 
 	@Autowired
+	private PasswordEncoder passwordEncoder;
+
+	@Autowired
 	private SessionFactory sessionFactory;
 
 	public void addUser(User user) {
 		Session session = sessionFactory.getCurrentSession();
+		// plain text(password)를 hashing하여 password를 setting
+		user.setPassword(passwordEncoder.encode(user.getPassword()));
 		session.saveOrUpdate(user);
 
 		session.flush();
