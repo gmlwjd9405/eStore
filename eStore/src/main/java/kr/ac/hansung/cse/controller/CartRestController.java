@@ -44,7 +44,6 @@ public class CartRestController {
 		return new ResponseEntity<Cart>(cart, HttpStatus.OK);
 	}
 
-	/** cartId에 해당하는 cart를 넘겨준다. */
 	@RequestMapping(value = "/add/{productId}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> addItem(@PathVariable(value = "productId") int productId) {
 

@@ -27,6 +27,9 @@
 					<ul class="nav navbar-nav pull-right">
 						<c:if test="${pageContext.request.userPrincipal.name != null}">
 							<li><a>Welcome:${pageContext.request.userPrincipal.name}</a></li>
+							<c:if test="${pageContext.request.userPrincipal.name != 'admin'}">
+								<li><a href="<c:url value="/cart"/>">Cart</a></li>
+							</c:if>
 							<c:if test="${pageContext.request.userPrincipal.name == 'admin'}">
 								<li><a href="<c:url value="/admin"/>">AdminPage</a></li>
 							</c:if>

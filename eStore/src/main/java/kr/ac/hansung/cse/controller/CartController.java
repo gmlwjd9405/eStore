@@ -13,22 +13,22 @@ import kr.ac.hansung.cse.service.UserService;
 @Controller
 @RequestMapping("/cart")
 public class CartController {
-	
+
 	@Autowired
 	private UserService userService;
-	
+
 	@RequestMapping
 	public String getCart(Model model) {
-		
+
+		// 사용자가 누구인지 사용자 이름을 얻는다.(Spring Security 이용)
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		
 		String username = authentication.getName();
-		
+
 		User user = userService.getUserByUsername(username);
 		int cartId = user.getCart().getCartId();
-		
+
 		model.addAttribute("cartId", cartId);
-		
+
 		return "cart";
 	}
 
