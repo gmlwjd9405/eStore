@@ -1,0 +1,67 @@
+var cartApp = angular.module('cartApp', []);
+
+cartApp.controller("cartCtrl", function($scope, $http) {
+
+	$scope.initCartId = function(cartId) {
+		$scope.cartId = cartId;
+		$scope.refreshCart();
+	};
+
+	$scope.refreshCart = function() {
+		$http.get('/eStore/rest/cart/' + $scope.cartId).then(
+				function successCallback(response) { /*! 성공했을 때 불리는 callback 함수 */
+					$scope.cart = response.data;
+				});
+	};
+
+	$scope.addToCart = function(productId) {
+
+		$scope.setCsrfToken();
+
+		$http.put('/eStore/rest/cart/add/' + productId).then(
+				function successCallback() { /*! 성공했을 때 불리는 callback 함수 */
+					alert("Product successfully added to the cart!");
+				}, function errorCallback() { /*! 실패했을 때 불리는 callback 함수 */
+					alert("Adding to the cart failed!");
+				});
+	};
+
+	$scope.removeFromCart = function(productId) {
+
+		$scope.setCsrfToken();
+
+		$http({
+			method : 'DELETE',
+			url : '/eStore/rest/cart/cartitem/' + productId
+		}).then(function successCallbak() {
+			$scope.refreshCart();
+		}, function errorCallback(response) {
+			console.log(response.data);
+		});
+	};
+
+	$scope.clearCart = function() {
+
+		$scope.setCsrfToken();
+
+		$http({
+			method : 'DELETE',
+			url : '/eStore/rest/cart/' + $scope.cartId
+		}).then(function successCallbak() {
+			$scope.refreshCart();
+		}, function errorCallback(response) {
+			console.log(response.data);
+		});
+	};
+
+	$scope.calGrandTotal = function() {
+		var grandTotal = 0;
+
+		for (var i = 0; i < $scope.cart.cartItems.length; i++) {
+			grandTotal += $scope.cart.cartItems[i].totalPrice;
+		}
+
+		return grandTotal;
+	};
+
+});

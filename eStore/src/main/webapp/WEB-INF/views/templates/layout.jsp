@@ -27,9 +27,15 @@
 <!-- Custom styles for this template -->
 <link href="<c:url value="/resources/css/main.css"/>" rel="stylesheet">
 
+<!-- AngularJS -->
+<script
+	src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+
+<!-- JQuery -->
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 
+<!-- BootStrap -->
 <script src="<c:url value="/resources/js/bootstrap.min.js"/>"></script>
 </head>
 

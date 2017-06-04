@@ -1,5 +1,6 @@
 package kr.ac.hansung.cse.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,7 +30,10 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "product")
-public class Product {
+public class Product implements Serializable {
+	
+	private static final long serialVersionUID = 1399541639012677824L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "product_id")

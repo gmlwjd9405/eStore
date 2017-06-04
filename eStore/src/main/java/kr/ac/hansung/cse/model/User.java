@@ -1,5 +1,7 @@
 package kr.ac.hansung.cse.model;
 
+import java.io.Serializable;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,7 +21,9 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements Serializable {
+
+	private static final long serialVersionUID = -5921627991557316398L;
 
 	@Id
 	@GeneratedValue
