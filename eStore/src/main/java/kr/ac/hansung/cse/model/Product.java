@@ -1,16 +1,24 @@
 package kr.ac.hansung.cse.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.Min;
 
 import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.web.multipart.MultipartFile;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -20,11 +28,11 @@ import lombok.ToString;
 @Setter
 @ToString
 @Entity
-@Table(name="product")
+@Table(name = "product")
 public class Product {
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="product_id")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "product_id")
 	private int id;
 
 	@NotEmpty(message = "The product name must not be null")
@@ -47,4 +55,8 @@ public class Product {
 	private MultipartFile productImage;
 
 	private String imageFilename;
+
+	@OneToMany(mappedBy = "product", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JsonIgnore
+	private List<CartItem> cartItemList = new ArrayList<CartItem>();
 }

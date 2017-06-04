@@ -11,6 +11,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import kr.ac.hansung.cse.model.Cart;
 import kr.ac.hansung.cse.model.ShippingAddress;
 import kr.ac.hansung.cse.model.User;
 import kr.ac.hansung.cse.service.UserService;
@@ -27,9 +28,8 @@ public class RegisterController {
 		User user = new User();
 		ShippingAddress shippingAddress = new ShippingAddress();
 
-		// bi-direction
 		user.setShippingAddress(shippingAddress);
-		shippingAddress.setUser(user);
+		// shippingAddress.setUser(user); // bi-direction
 
 		user.setUsername("testName");
 		model.addAttribute("user", user); // model에 user저장
@@ -63,8 +63,10 @@ public class RegisterController {
 		else
 			user.setAuthority("ROLE_USER");
 
-		// 양방향 설정
-		user.getShippingAddress().setUser(user);
+		// user.getShippingAddress().setUser(user); // bi-direction
+
+		Cart newCart = new Cart();
+		user.setCart(newCart);
 
 		userService.addUser(user); // DB에 저장
 

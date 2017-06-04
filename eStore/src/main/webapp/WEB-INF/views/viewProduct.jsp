@@ -17,7 +17,9 @@
 				<p>${product.description}</p>
 				<p><strong>Manufacturer</strong> : ${product.manufacturer}</p>
 				<p><strong>Category</strong> : ${product.category}</p>
-				<p>${product.price}</p>
+				
+				<h4>${product.price} 원</h4>
+				<br/>
 			</div>
 		</div>
 	</div>

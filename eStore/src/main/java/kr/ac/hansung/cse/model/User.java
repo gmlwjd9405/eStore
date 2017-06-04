@@ -4,6 +4,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -33,8 +34,13 @@ public class User {
 	@NotEmpty(message = "The email must not be null")
 	private String email;
 
-	@OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(unique = true)
 	private ShippingAddress shippingAddress; // 배송 주소
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(unique = true)
+	private Cart cart;
 
 	private boolean enabled = false; // 가입자가 활성화 되어 있는지
 
