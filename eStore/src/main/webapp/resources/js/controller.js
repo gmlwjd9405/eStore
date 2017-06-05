@@ -64,4 +64,11 @@ cartApp.controller("cartCtrl", function($scope, $http) {
 		return grandTotal;
 	};
 
+	$scope.setCsrfToken = function() {
+		var csrfToken = $("meta[name='_csrf']").attr("content");
+		var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+
+		$http.defaults.headers.common[csrfHeader] = csrfToken;
+	};
+	
 });

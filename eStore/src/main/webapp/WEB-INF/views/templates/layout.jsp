@@ -12,6 +12,11 @@
 <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
 <meta name="description" content="">
 <meta name="author" content="">
+
+<meta name="_csrf" content="${_csrf.token}" />
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}" />
+
 <link rel="icon" href="../../favicon.ico">
 
 <title><tiles:insertAttribute name="title" /></title>
