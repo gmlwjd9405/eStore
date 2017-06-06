@@ -15,6 +15,7 @@ public class CartDao {
 	@Autowired
 	private SessionFactory sessionFactory;
 	
+	/** cartId에 해당하는 cart에 대한 정보를 실제 DB(Hibernate를 이용)에서 가져오는 메서드 */
 	public Cart getCartById(int cartId) {
 		Session session = sessionFactory.getCurrentSession();
 		return (Cart) session.get(Cart.class, cartId);

@@ -37,17 +37,18 @@ public class CartRestController {
 	@Autowired
 	private ProductService productService;
 
-	/** cartId에 해당하는 cart를 넘겨준다. */
+	/** cartId에 해당하는 cart를 넘겨주는 API */
 	@RequestMapping(value = "/{cartId}", method = RequestMethod.GET)
 	public ResponseEntity<Cart> getCartById(@PathVariable(value = "cartId") int cartId) {
 		Cart cart = cartService.getCartById(cartId);
 		return new ResponseEntity<Cart>(cart, HttpStatus.OK);
 	}
 
+	/** productId에 해당하는 product를 cart에 담는 API */
 	@RequestMapping(value = "/add/{productId}", method = RequestMethod.PUT)
 	public ResponseEntity<Void> addItem(@PathVariable(value = "productId") int productId) {
 
-		// 사용자가 누구인지 사용자 이름을 얻는다.(Spring Security 이용)
+		// 로그인한 사용자가 누구인지 그 사용자 이름을 얻는다.(Spring Security 이용)
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
 		String username = authentication.getName();
@@ -57,7 +58,8 @@ public class CartRestController {
 
 		List<CartItem> cartItems = cart.getCartItems();
 
-		// 현재 productId에 해당하는 cart가 기존에 존재하는지를 확인한다.
+		// productId에 해당하는 product가 cart의 cartItem에 이미 존재하는지를 확인한다.
+		// 동일한 product를 여러 개 고를 수 있기 때문에 cartItem에 있는 경우엔 Quantity를 증가만 한다.
 		for (int i = 0; i < cartItems.size(); i++) {
 			if (product.getId() == cartItems.get(i).getProduct().getId()) {
 				CartItem cartItem = cartItems.get(i);
@@ -77,12 +79,14 @@ public class CartRestController {
 
 		cartItemService.addCartItem(cartItem);
 
+		// bi-direction. 새로 추가된 cartItem을 List에 넣는다.
 		cart.getCartItems().add(cartItem);
 		product.getCartItemList().add(cartItem);
 
 		return new ResponseEntity<Void>(HttpStatus.OK);
 	}
 
+	/** productId에 해당하는 product를 cart에서 삭제하는 API */
 	@RequestMapping(value = "/cartitem/{productId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> removeItem(@PathVariable(value = "productId") int productId) {
 
@@ -97,7 +101,8 @@ public class CartRestController {
 
 		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
 	}
-
+	
+	/** cart에 있는 모든 cartItem을 삭제하는 API */
 	@RequestMapping(value = "/{cartId}", method = RequestMethod.DELETE)
 	public ResponseEntity<Void> clearCart(@PathVariable(value = "cartId") int cartId) {
 		Cart cart = cartService.getCartById(cartId);

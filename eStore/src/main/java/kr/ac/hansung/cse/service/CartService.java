@@ -12,6 +12,7 @@ public class CartService {
 	@Autowired
 	private CartDao cartDao;
 
+	/** cartId에 해당하는 cart를 반환하는 메서드 */
 	public Cart getCartById(int cartId) {
 		return cartDao.getCartById(cartId);
 	}
