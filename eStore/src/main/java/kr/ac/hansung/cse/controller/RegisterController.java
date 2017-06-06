@@ -28,10 +28,9 @@ public class RegisterController {
 		User user = new User();
 		ShippingAddress shippingAddress = new ShippingAddress();
 
-		user.setShippingAddress(shippingAddress);
+		user.setShippingAddress(shippingAddress); // user마다 ShippingAddress 존재
 		// shippingAddress.setUser(user); // bi-direction
 
-		user.setUsername("testName");
 		model.addAttribute("user", user); // model에 user저장
 
 		return "registerUser";
@@ -66,7 +65,7 @@ public class RegisterController {
 		// user.getShippingAddress().setUser(user); // bi-direction
 
 		Cart newCart = new Cart();
-		user.setCart(newCart);
+		user.setCart(newCart); // user마다 Cart 존재
 
 		userService.addUser(user); // DB에 저장
 
